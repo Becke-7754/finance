@@ -62,7 +62,7 @@ fieldsArr[0].focus();
  },
 
  deleteListItem: function(id){
-   var el = document.getElementById(id);
+   var el = document.getElementById(id);  
    el.parentNode.removeChild(el);
 
  },
@@ -87,7 +87,7 @@ fieldsArr[0].focus();
   }
 
 };
-});
+})();
 
 // Санхүүтэй ажиллах контроллер
 var financeController = (function () {
@@ -185,7 +185,7 @@ data.totals[type] = sum;
        return item;
       }
     }
-});
+})();
 
 // Програмын холбогчконтроллер
 var appController = (function (uiController, financeController) {
