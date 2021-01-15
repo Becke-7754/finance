@@ -101,7 +101,20 @@ var financeController = (function () {
       this.id = id;
     this.description = description;
     this.value = value;
-    }
+    this.percentage = -1;
+    };
+
+    Expense.prototype.calcPercentage = function(totalIncome){
+      if(totalIncome > 0 )
+      this.percentage = Math.round(( this.value / totalIncome ) * 100);
+      else this.percentage = 0;
+    };
+
+    Expense.prototype.getPercentage = function(){
+      return this.percentage;
+    };
+
+
 
 var calculateTotal = function(type){
   var sum = 0;
@@ -137,8 +150,26 @@ data.totals[type] = sum;
       data.tusuv = data.totals.inc - data.totals.exp;
 
       // Орлого зарлагийн хувийш тооцоолно
-      data.huvi = Math.round((data.totals.exp / data.totals.inc) * 100);
-      },
+      if (data.totals.inc > 0) 
+      data.huvi = Math.round((data.totals.exp / data.totals.inc) * 100)
+      else data.huvi == 0;
+    },
+
+     calculatePercentages: function() {
+      data.items.exp.forEach(function(el){
+        el.calcPercentage(data.totals.inc)
+      });
+    },
+
+
+    getPercentages: function() {
+      var allPercentages = data.items.exp.map(function(el){
+      return el.getPercentage();
+      });
+
+      return allPercentages;
+
+    },
 
 
       tusviigAvah: function(){
@@ -187,7 +218,7 @@ data.totals[type] = sum;
     }
 })();
 
-// Програмын холбогчконтроллер
+// Програмын холбогч контроллер
 var appController = (function (uiController, financeController) {
   var ctrlAddItem = function() {    
 // 1. Oruulah ugugdliig delgetsees olj awna
@@ -195,19 +226,43 @@ var input = uiController.getInput();
 if(input.description !== "" && input.value !== ""){
 
   // 2. Oruulah ogogdluudee sanhuugiin controllert damjuulj tend hadgalna
-  var item = financeController.addItem(input.type, input.description, input.value);
+  var item = financeController.addItem(
+    input.type,
+     input.description, 
+     input.value);
+
+
   // 3 .Olj awsan ogogdluudiig   web deeree tohiroh hesegt n gargana
+
   uiController.addListItem(item, input.type);
   uiController.clearFields();
-  // 4.Tusviig tootsoolno
+
+  // Tusuwiig shineer tootsoolood delgetsend uzuulne
+   updateTusuw();
+
+    }
+  };
+    
+    var updateTusuw = function(){
+        // 4.Tusviig tootsoolno
   financeController.tusuwTootsooloh();
 
   // 5. Etssiin uldegdel toostoog delgetsend gargana
+
 var tusuv = financeController.tusviigAvah();
-// Tuswiin tootsoog delgetsend gargah
+
+//   6. Tuswiin tootsoog delgetsend gargah
 uiController.tusviigUzuuleh(tusuv);
-    }
-  };
+
+//   7. Elementuudiin huwiig tootsooloh
+financeController.calculatePercentages();
+//   8. Elementuudiin huwiij huleej awna
+var allPercentages = financeController.getPercentages();
+//   9. Edgeer huwiig delgetsend haruulna
+console.log(allPercentages);
+    };
+
+   
   var setupEventListeners = function() {
     var DOM = uiController.getDOMstrings();
   
@@ -239,6 +294,9 @@ uiController.tusviigUzuuleh(tusuv);
                       uiController.deleteListItem(id);
 
                       // 3. Үлдэглэл тооцоог шинэчилж харуулна.
+                      
+                        updateTusuw();
+ 
           }
         });
   };
