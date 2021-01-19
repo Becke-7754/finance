@@ -11,8 +11,18 @@ var uiController = (function () {
     incomeLabel: '.budget__income--value',
     expenseLabel: ".budget__expenses--value",
     percentageLabel: '.budget__expenses--percentage',
-    containerDiv: ".container"
-  }
+    containerDiv: ".container",
+    expensePercentageLabel: ".item__percentage"
+  };
+
+  var NodeListForEach = function (list, callback) {
+for (var i = 0; i < list.length; i++) {
+  callback(list[i], i);
+}
+  };
+
+
+
 return {
   getInput: function(){
     return {
@@ -21,6 +31,20 @@ return {
       value: parseInt(document.querySelector(DOMstrigs.inputValue).value)
     };
   },
+
+displayPercentages: function(allPercentages){
+  // ZArlagiin NodeList-iig olog 
+ var elementes = document.querySelectorAll(DOMstrigs.expensePercentageLabel);
+
+//  Element bolgonii huwid zarlagiin huwiig massivaas avch shiwj oruulah
+
+NodeListForEach(elementes, function (el, index){
+  el.textContent = allPercentages[index];
+});
+
+
+},
+
   getDOMstrings: function (){
     return DOMstrigs;
   },
@@ -259,7 +283,9 @@ financeController.calculatePercentages();
 //   8. Elementuudiin huwiij huleej awna
 var allPercentages = financeController.getPercentages();
 //   9. Edgeer huwiig delgetsend haruulna
-console.log(allPercentages);
+
+
+uiController.displayPercentages(allPercentages);
     };
 
    
