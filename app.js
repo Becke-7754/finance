@@ -58,7 +58,7 @@ return {
 
     var unuudur = new Date();
 
-    document.querySelector(DOMstrigs.dateLabel).textContent = unuudur.getFullYear() + " оны " + unuudur.getMonth() + " сарын ";
+    document.querySelector(DOMstrigs.dateLabel).textContent = unuudur.getFullYear() + " оны " + (unuudur.getMonth() + 1 ) + " сарын ";
 
 
 
@@ -149,7 +149,7 @@ fieldsArr[0].focus();
     // HTML dotroo orlogo zarlagin utguudig REPLACE ashiglaj uurchilj ugno
     html = html.replace('%id%', item.id);
     html = html.replace('%DESCRIPTION%', item.description);
-    html = html.replace('%VALUE%', item.value)
+    html = html.replace('%VALUE%', formatMoney(item.value, type));
     // Beltgsene HTML-ee DOM ruu hiij ugno
     document.querySelector(list).insertAdjacentHTML("beforeend", html );
   }
