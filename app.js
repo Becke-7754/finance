@@ -66,10 +66,10 @@ return {
     var fields = document.querySelectorAll(DOMstrigs.inputType + ',' + DOMstrigs.inputDescription + ',' + DOMstrigs.inputValue);
 
     NodeListForEach(fields, function(el){
-      el.classList.toggle('red-focus');
+      el.classList.toggle("red-focus");
     });
 
-    document.querySelector(DOMstrigs.addBtn).classList.toggle('red');
+    document.querySelector(DOMstrigs.addBtn).classList.toggle("red");
   },
 
   getInput: function(){
@@ -364,11 +364,10 @@ uiController.displayPercentages(allPercentages);
           var id =event.target.parentNode.parentNode.parentNode.parentNode.id;
 
           if(id){
-                      var arr = id.split('-');;
-                      var type = arr[0];
-                      var itemId = parseInt(arr[1]);
-
-                      console.log(type + ' ===> ' + itemId);
+           var arr = id.split('-');;
+            var type = arr[0];
+             var itemId = parseInt(arr[1]);
+             console.log(type + ' ===> ' + itemId);
 
                       // 1. Санхүүгийн модулиас, iD ашиглаад устгана.
                       financeController.deleteItem(type, itemId)
