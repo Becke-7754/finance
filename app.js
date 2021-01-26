@@ -60,8 +60,16 @@ return {
 
     document.querySelector(DOMstrigs.dateLabel).textContent = unuudur.getFullYear() + " оны " + (unuudur.getMonth() + 1 ) + " сарын ";
 
+  },
 
+  changeType: function(){
+    var fields = document.querySelectorAll(DOMstrigs.inputType + ',' + DOMstrigs.inputDescription + ',' + DOMstrigs.inputValue);
 
+    NodeListForEach(fields, function(el){
+      el.classList.toggle('red-focus');
+    });
+
+    document.querySelector(DOMstrigs.addBtn).classList.toggle('red');
   },
 
   getInput: function(){
@@ -153,6 +161,10 @@ fieldsArr[0].focus();
     // Beltgsene HTML-ee DOM ruu hiij ugno
     document.querySelector(list).insertAdjacentHTML("beforeend", html );
   }
+ 
+  
+
+
 
 };
 })();
@@ -346,6 +358,8 @@ uiController.displayPercentages(allPercentages);
           }
         });
 
+        document.querySelector(DOM.inputType).addEventListener('change', uiController.changeType);
+
         document.querySelector(DOM.containerDiv).addEventListener('click', function(event){
           var id =event.target.parentNode.parentNode.parentNode.parentNode.id;
 
@@ -369,6 +383,7 @@ uiController.displayPercentages(allPercentages);
  
           }
         });
+
   };
 return {
   init: function() {
